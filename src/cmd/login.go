@@ -2,14 +2,14 @@ package cmd
 
 //登陆命令
 
-
 import (
-"fmt"
+	"fmt"
 
-"github.com/spf13/cobra"
+	"github.com/spf13/cobra"
 )
 
 var password string
+
 func init() {
 	rootCmd.AddCommand(loginCmd)
 

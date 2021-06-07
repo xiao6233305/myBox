@@ -3,18 +3,15 @@
 package main
 
 import (
-	"myBox/src/common"
-	"os"
-	"myBox/src/cmd"
+	"github.com/xiao6233305/mybox/src/cmd"
+	"github.com/xiao6233305/mybox/src/common"
+	_ "os"
 )
-
-
 
 func init() {
 	//设置日志级别
 	common.SetLogLevel(MODE)
 }
-
 
 func main() {
 	//需要让程序一直跑  所以需要启动一个goruntine 空跑

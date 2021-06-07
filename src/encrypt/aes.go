@@ -5,11 +5,11 @@ import (
 	"crypto/aes"
 	"crypto/cipher"
 	"encoding/base64"
-	"myBox/src/common"
+	"github.com/xiao6233305/mybox/src/common"
 )
 
 func PKCS7Padding(ciphertext []byte, blockSize int) []byte {
-	padding := blockSize - len(ciphertext) % blockSize
+	padding := blockSize - len(ciphertext)%blockSize
 	padtext := bytes.Repeat([]byte{byte(padding)}, padding)
 	return append(ciphertext, padtext...)
 }
@@ -21,10 +21,9 @@ func PKCS7UnPadding(origData []byte) []byte {
 }
 
 func AesEncrypt(origData, key string) (string, error) {
-	r,e := aesEncrypt([]byte(origData),[]byte(key))
+	r, e := aesEncrypt([]byte(origData), []byte(key))
 	return base64.StdEncoding.EncodeToString(r), e
 }
-
 
 func aesEncrypt(origData, key []byte) ([]byte, error) {
 	block, err := aes.NewCipher(key)
@@ -53,24 +52,23 @@ func aesDecrypt(crypted, key []byte) ([]byte, error) {
 }
 
 func AesDecrypt(crypted, key string) (string, error) {
-	s,_ := base64.StdEncoding.DecodeString(crypted)
-	r,e := aesDecrypt(s,[]byte(key))
-	return string(r),e
+	s, _ := base64.StdEncoding.DecodeString(crypted)
+	r, e := aesDecrypt(s, []byte(key))
+	return string(r), e
 }
 
-
 // 对密码进行加密  不能让人通过代码就能解密出密钥  必须获取到key
-func EncryptPassword(s string) string  {
-	encryptKey,secretkey := common.GetEncryptKey()
-	key,_ := AesDecrypt(encryptKey,secretkey)
-	r,_ := AesEncrypt(s,key)
+func EncryptPassword(s string) string {
+	encryptKey, secretkey := common.GetEncryptKey()
+	key, _ := AesDecrypt(encryptKey, secretkey)
+	r, _ := AesEncrypt(s, key)
 	return r
 }
 
 //对密码进行解密
-func DecryptPasswd(s string) string  {
-	encryptKey,secretkey := common.GetEncryptKey()
-	key,_ := AesDecrypt(encryptKey,secretkey)
-	r,_ := AesDecrypt(s,key)
+func DecryptPasswd(s string) string {
+	encryptKey, secretkey := common.GetEncryptKey()
+	key, _ := AesDecrypt(encryptKey, secretkey)
+	r, _ := AesDecrypt(s, key)
 	return r
 }

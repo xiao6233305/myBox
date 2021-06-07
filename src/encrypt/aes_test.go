@@ -1,6 +1,5 @@
 package encrypt
 
-
 // 验证aes算法是否正确
 import (
 	"github.com/stretchr/testify/assert"
@@ -34,5 +33,3 @@ func Test_aesDecrypt(t *testing.T) {
 		ast.Equal(v.s, r, "输入:%v", v)
 	}
 }
-
-

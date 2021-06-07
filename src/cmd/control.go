@@ -10,7 +10,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-
 func init() {
 	rootCmd.AddCommand(controlCmd)
 }
@@ -38,13 +37,13 @@ var controlCmd = &cobra.Command{
 	},
 }
 
-func control()  {
+func control() {
 	t := prompt.Input(`mybox> `, completer)
 	fmt.Println("You selected " + t)
 
 }
 
-func exector(s string)  {
+func exector(s string) {
 	switch s {
 	case `add`:
 		fmt.Println("add password")
@@ -52,4 +51,3 @@ func exector(s string)  {
 		fmt.Println("can not support")
 	}
 }
-

@@ -2,40 +2,39 @@ package operating
 
 import (
 	"fmt"
-	"myBox/src/common"
-	"myBox/src/encrypt"
-	"myBox/src/file"
-	"myBox/src/myError"
+	"github.com/xiao6233305/mybox/src/common"
+	"github.com/xiao6233305/mybox/src/encrypt"
+	"github.com/xiao6233305/mybox/src/file"
+	"github.com/xiao6233305/mybox/src/myError"
 	"strconv"
 )
 
-
 // 添加账号密码放入文件里面
-func Add(user,passwd,sysName string) bool  {
-	switch  {
-	case len(user)==0:
+func Add(user, passwd, sysName string) bool {
+	switch {
+	case len(user) == 0:
 		myError.ErrorOut(fmt.Errorf("users is empty"))
 		return false
-	case len(sysName)==0:
+	case len(sysName) == 0:
 		myError.ErrorOut(fmt.Errorf("sysName is empty"))
 		return false
-	case len(passwd)==0:
+	case len(passwd) == 0:
 		myError.ErrorOut(fmt.Errorf("password is empty"))
 		return false
 	default:
 		// 先判断是否存在  存在就进行更新  不存在就添加
-		sSlice := make([]string,3)
-		sSlice[0] = `user = "`+user+`"`
-		sSlice[1] = `sysName = "`+sysName+`"`
-		sSlice[2] = common.PASSWORDKEYNAME+` = "`+encrypt.EncryptPassword(passwd)+`"`
+		sSlice := make([]string, 3)
+		sSlice[0] = `user = "` + user + `"`
+		sSlice[1] = `sysName = "` + sysName + `"`
+		sSlice[2] = common.PASSWORDKEYNAME + ` = "` + encrypt.EncryptPassword(passwd) + `"`
 		list := getAccountList()
 		maxNo := ``
 		//把密码写入文件里面 防止文件名有空格这类系统不支持对情况  所以base64
 		fileName := ``
 		existsKey := -1
 		newAccount := new(AccountStruct)
-		for k,v := range list{
-			if v.SysName == sysName{
+		for k, v := range list {
+			if v.SysName == sysName {
 				existsKey = k
 				newAccount = &v
 				fileName = v.FileName
@@ -43,26 +42,26 @@ func Add(user,passwd,sysName string) bool  {
 			}
 			maxNo = v.No
 		}
-		if existsKey == -1{
-			fileName = common.ACCOUNTPATH+common.RandEncryptStr(32)
-			tmpNo,_ := strconv.Atoi(maxNo)
+		if existsKey == -1 {
+			fileName = common.ACCOUNTPATH + common.RandEncryptStr(32)
+			tmpNo, _ := strconv.Atoi(maxNo)
 			tmpNo++
 			newAccount.No = strconv.Itoa(tmpNo)
 		}
 		newAccount.FileName = fileName
 		newAccount.SysName = sysName
 		newAccount.Account = user
-		file.RewriteFile(fileName,sSlice)
+		file.RewriteFile(fileName, sSlice)
 		md5Value := file.GetFileMd5(fileName)
 		newAccount.Md5 = md5Value
-		switch  {
-		case len(list)==0:
+		switch {
+		case len(list) == 0:
 			// 完全没有记录
-			list = append(list,AccountStruct{})
+			list = append(list, AccountStruct{})
 			list[0] = *newAccount
-		case existsKey==-1:
+		case existsKey == -1:
 			//新添加的一条
-			list = append(list,*newAccount)
+			list = append(list, *newAccount)
 		default:
 			//修改已有的
 			list[existsKey] = *newAccount

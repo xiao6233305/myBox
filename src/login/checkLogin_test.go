@@ -5,7 +5,6 @@ import (
 	"testing"
 )
 
-
 var q1 = []struct {
 	s string
 	r bool
@@ -19,7 +18,6 @@ var q1 = []struct {
 		r: true,
 	},
 }
-
 
 func Test_CheckLogin(t *testing.T) {
 	ast := assert.New(t)

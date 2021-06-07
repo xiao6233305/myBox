@@ -24,4 +24,3 @@ func Test_CalPassword(t *testing.T) {
 		ast.Equal(v.r, r, "输入:%v", v)
 	}
 }
-
