@@ -5,6 +5,10 @@
 *.so
 *.dylib
 
+# programs conf and lock file
+*.ini
+*.lock
+
 # Test binary, built with `go test -c`
 *.test
 
